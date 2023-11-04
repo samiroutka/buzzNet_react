@@ -1,0 +1,23 @@
+.Register{
+  margin: 0 auto;
+  width: 90vw;
+}
+form{
+  margin: 0 auto;
+  width: 80%;
+}
+.remember{
+  margin-top: 3%;
+  display: flex;
+  align-items: center;
+
+  *{
+    font-size: 1.1em;
+  }
+}
+.redirection{
+  text-align: center;
+  a{
+    text-decoration: none;
+  }
+}

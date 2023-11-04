@@ -1,0 +1,25 @@
+.Field{
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+}
+.Input{
+  font-size: 1.2em;
+
+  outline: none;
+  border: 0;
+  border-bottom: 2px solid black;
+  transition: all .1s linear;
+
+  &:focus{
+    border-radius: 5px;
+    border-color: rgb(100, 0, 0);
+  }
+}
+.Span{
+  font-size: 1em;
+  color: rgb(150, 0, 0);
+  text-align: end;
+
+  transition: all .1s ease-in;
+}
