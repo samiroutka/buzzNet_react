@@ -9,8 +9,18 @@
   width: 100%;
 }
 
-.button{
+.saveButton{
   margin: 0 auto;
   margin-top: 10%;
-  display: block;
+  display: flex;
+}
+.deleteButton{
+  margin: 0 auto;
+  margin-top: 5%;
+  display: flex;
+  background-color: red;
+}
+
+.editor{
+  width: 100%;
 }

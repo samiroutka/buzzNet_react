@@ -10,7 +10,7 @@ import { rememberUser } from '../../utils.js'
 const Register = () => {
   let apiUrl = import.meta.env.VITE_APIURL
   let {setIsLoading, isLoading, setIsLogin, setUserData} = useContext(Context)
-  let navigator = useNavigate()
+  let navigateTo = useNavigate()
   let checkBox = useRef()
 
   let field1 = useRef()
@@ -31,9 +31,10 @@ const Register = () => {
       if (checkBox.current.checked) {
         rememberUser(document, field1.current.value, field2.current.value)
       }
+      response.posts = JSON.parse(response.posts)
       setUserData(response)
       setIsLogin(true)
-      navigator('/')
+      navigateTo('/')
       return true
     } else if (response == 'NAME') {
       setErrorText('Имя уже существувет')

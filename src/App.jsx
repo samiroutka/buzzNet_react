@@ -27,6 +27,7 @@ const App = () => {
       body: formData,
     })
     response = await response.json()
+    response.posts = JSON.parse(response.posts)
     if (response.name == getCookie(document, 'name')) {
       setIsLogin(true)
       setUserData(response)
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/" element={<Main/>}/>
           <Route path="/:postId" element={<Post/>}/>
           <Route path='/error' element={<Error/>}/>
+          <Route path='/error/:wrongPath' element={<Error/>}/>
           <Route path='*' element={<Error/>}/>
         </Routes>:
         <Routes>

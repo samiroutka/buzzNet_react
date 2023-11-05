@@ -1,0 +1,59 @@
+
+.search__tabList{
+  width: 100%;
+}
+.search__tab{
+  width: 50%;
+  height: 5vh;
+
+  transition: all .1s linear;
+}
+
+.loader{
+  margin: 0 auto;
+  margin-top: 5%;
+  display: block;
+}
+
+// -----------header-------------
+.search__header{
+  margin-top: 5%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.search__searchField{
+  width: 90%;
+  input{
+    padding: 2%;
+  }
+}
+.search__searchButton{
+  width: 10%;
+}
+
+// ------------posts------------
+.searchPost{
+  margin: 0 auto;
+  width: 90%;
+}
+
+.searchPost__posts{
+  display: flex;
+  flex-wrap: wrap;
+}
+.searchPost__post{
+  width: 50%;
+  height: 10vh;
+  box-sizing: border-box;
+
+  border: 2px solid black;
+  text-align: center;
+}
+
+// ------------users------------
+
+.searchUser{
+  margin: 0 auto;
+  width: 90%;
+}

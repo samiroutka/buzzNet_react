@@ -31,6 +31,7 @@ const Login = () => {
       body: formData,
     })
     response = await response.json()
+    response.posts = JSON.parse(response.posts)
     if (response.name == field1.current.value){
       if (checkBox.current.checked) {
         rememberUser(document, field1.current.value, field2.current.value)

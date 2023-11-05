@@ -4,7 +4,7 @@ import './Main.scss'
 import Line from '../../components/Line/Line'
 import UserPage from '../../components/UserPage/UserPage'
 import Search from './../../components/Search/Search'
-import { Tab, Tabs, TabsList, TabPanel, tabClasses } from '@mui/base';
+import { Tab, Tabs, TabsList, TabPanel } from '@mui/base';
 
 const Main = () => {
   // --------------------
@@ -12,9 +12,9 @@ const Main = () => {
     <div className={styles.Main}>
       <Tabs defaultValue='userPage'>
         <TabsList className={styles.TabsList}>
-          <Tab className={`${styles.Tab}`}>Лента</Tab>
-          <Tab className={`${styles.Tab}`}>Поиск</Tab>
-          <Tab className={`${styles.Tab}`} value='userPage'>Страничка</Tab>
+          <Tab className={styles.Tab}>Лента</Tab>
+          <Tab className={styles.Tab}>Поиск</Tab>
+          <Tab className={styles.Tab} value='userPage'>Страничка</Tab>
         </TabsList>
         <TabPanel><Line/></TabPanel>
         <TabPanel><Search/></TabPanel>

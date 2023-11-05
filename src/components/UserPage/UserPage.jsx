@@ -2,10 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import styles from './UserPage.module.scss'
 import {Context} from '../../context.js'
 import post_adding from './images/post_adding.svg'
-import { getCookie } from './../../utils';
 import { useNavigate } from 'react-router';
 import { Avatar } from '@mui/material'
-
 
 const UserPage = React.forwardRef((props, ref) => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -17,10 +15,7 @@ const UserPage = React.forwardRef((props, ref) => {
       method: 'POST',
     })
     let newPost = await response.json()
-    console.log(newPost)
-    let posts = JSON.parse(userData.posts)
-    posts.push(newPost)
-    userData.posts = JSON.stringify(posts)
+    userData.posts.push(newPost)
     setUserData(userData)
     navigateTo(`/${newPost.id}`)
   }
@@ -36,7 +31,7 @@ const UserPage = React.forwardRef((props, ref) => {
         <div className={styles.data}>
           <p className={styles.data__block}>
             <strong>Посты</strong>
-            <span>{!userData.posts ? 0 : JSON.parse(userData.posts).length}</span>
+            <span>{!userData.posts ? 0 : userData.posts.length}</span>
           </p>
           <p className={styles.data__block}>
             <strong>Подписчики</strong>
@@ -48,7 +43,7 @@ const UserPage = React.forwardRef((props, ref) => {
           </p>
         </div>
         <div className={styles.posts}>
-          {JSON.parse(userData.posts).map(post => 
+          {userData.posts.map(post => 
             <div className={styles.posts__post} onClick={() => {
               navigateTo(`/${post.id}`)
             }} key={post.id}>
