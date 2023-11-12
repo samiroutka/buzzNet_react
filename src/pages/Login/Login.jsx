@@ -4,10 +4,9 @@ import MyField from '../../components/UI/MyField/MyField'
 import MySubmitButton from './../../components/UI/MySubmitButton/MySubmitButton'
 import { Context } from '../../context'
 import MyLoader from './../../components/UI/MyLoader/MyLoader';
-import { getCookie, rememberUser } from '../../utils'
+import { getUser, rememberUser } from '../../utils'
 
 const Login = () => {
-  let apiUrl = import.meta.env.VITE_APIURL
   let {setIsLoading, isLoading, setIsLogin, setUserData} = useContext(Context)
 
   let field1 = useRef()
@@ -23,15 +22,7 @@ const Login = () => {
 
   let checkAccount = async (form) => {
     clearErrors()
-    let formData = new FormData()
-    formData.append('name', field1.current.value)
-    formData.append('password', field2.current.value)
-    let response = await fetch(`${apiUrl}login/`, {
-      method: 'POST',
-      body: formData,
-    })
-    response = await response.json()
-    response.posts = JSON.parse(response.posts)
+    let response = await getUser(field1.current.value, field2.current.value)
     if (response.name == field1.current.value){
       if (checkBox.current.checked) {
         rememberUser(document, field1.current.value, field2.current.value)

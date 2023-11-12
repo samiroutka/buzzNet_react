@@ -1,17 +1,18 @@
 import React from 'react'
 import styles from './Search.module.scss'
-import { TextField, CircularProgress, IconButton} from '@mui/material';
+import { TextField, CircularProgress, IconButton, Avatar} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router'
 import { Tab, Tabs, TabsList, TabPanel } from '@mui/base';
 
-const SearchHeader = ({searchFunction}) => {
+const SearchHeader = ({searchFunction, placeholder}) => {
   let inputRef = useRef()
 
   // ---------------------
   return (
     <div className={styles.search__header}>
-      <TextField ref={inputRef} className={styles.search__searchField} placeholder='Название поста'/>
+      <TextField ref={inputRef} className={styles.search__searchField} placeholder={placeholder}/>
       <IconButton onClick={async () => {
         await searchFunction(inputRef)
       }} className={styles.search__searchButton}>
@@ -25,6 +26,7 @@ const SearchPost = React.forwardRef((props, ref) => {
   let apiUrl = import.meta.env.VITE_APIURL
   let [foundPosts, setFoundPosts] = useState(['Initial'])
   let [isLoading, setIsLoading] = useState(false)
+  let navigateTo = useNavigate()
 
   let searchPost = async (inputRef) => {
     setIsLoading(true)
@@ -38,14 +40,16 @@ const SearchPost = React.forwardRef((props, ref) => {
   // --------------------
   return (
     <div className={styles.searchPost} {...props} ref={ref}>
-      <SearchHeader searchFunction={searchPost}/>
+      <SearchHeader searchFunction={searchPost} placeholder='Название поста'/>
       {isLoading ? <CircularProgress className={styles.loader}/> :
       <div className={styles.searchPost__posts}>
         {foundPosts[0] == 'Initial' ? <></>:
         foundPosts.length == 0 ?
         <p>Постов нету</p> :
         foundPosts.map(post => 
-        <div className={styles.searchPost__post} key={Math.random()}>
+        <div className={styles.searchPost__post} key={Math.random()} onClick={() => {
+          navigateTo(`/users/${post.user}/posts/${post.id}`, {state: post})
+        }}>
           <p>{post.title}</p>
         </div>)}
       </div>}
@@ -57,11 +61,12 @@ const SearchUser = React.forwardRef((props, ref) => {
   let apiUrl = import.meta.env.VITE_APIURL
   let [foundUsers, setFoundUsers] = useState(['Initial'])
   let [isLoading, setIsLoading] = useState(false)
+  let navigateTo = useNavigate()
 
   let searchUser = async (inputRef) => {
     setIsLoading(true)
     let inputValue = inputRef.current.querySelector('input').value
-    let response = await fetch(`${apiUrl}user/${inputValue}`)
+    let response = await fetch(`${apiUrl}users/${inputValue}`)
     response = await response.json()
     setFoundUsers(response)
     setIsLoading(false)
@@ -70,14 +75,17 @@ const SearchUser = React.forwardRef((props, ref) => {
   // --------------------
   return (
     <div className={styles.searchUser} {...props} ref={ref}>
-      <SearchHeader searchFunction={searchUser}/>
+      <SearchHeader searchFunction={searchUser} placeholder='Имя пользователя'/>
       {isLoading ? <CircularProgress className={styles.loader}/> :
       <div className={styles.searchUser__users}>
         {foundUsers[0] == 'Initial' ? <></>:
         foundUsers.length == 0 ?
         <p>Страничек нету</p> :
         foundUsers.map(user => 
-        <div key={user.name}>
+        <div className={styles.searchUser__user} key={user.name} onClick={() => {
+          navigateTo(`/users/${user.name}`, {state: user})
+        }}>
+          <Avatar className={styles.searchUser__avatar} src={apiUrl + user.avatar}/>
           <p>{user.name}</p>
         </div>)}
       </div>}
@@ -93,7 +101,7 @@ const Search = React.forwardRef((props, ref) => {
     <Tabs defaultValue='SearchPost'>
       <TabsList className={styles.search__tabList}>
         <Tab className={styles.search__tab} value='SearchPost'>Посты</Tab>
-        <Tab className={styles.search__tab}>Странички</Tab>
+        <Tab className={styles.search__tab}>Пользователи</Tab>
       </TabsList>
       <TabPanel value='SearchPost'><SearchPost/></TabPanel>
       <TabPanel><SearchUser/></TabPanel>

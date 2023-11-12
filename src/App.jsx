@@ -6,7 +6,9 @@ import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import Main from './pages/Main/Main'
 import Error from './pages/Error/Error'
-import Post from './pages/Post/Post'
+import UserPagePost from './pages/UserPagePost/UserPagePost'
+import User from './pages/User/User'
+import Post from './pages/Post/Post.jsx'
 import {Context} from './context.js' 
 import {getCookie} from './utils.js'
 import { StyledEngineProvider } from '@mui/material/styles';
@@ -29,7 +31,6 @@ const App = () => {
     response = await response.json()
     response.posts = JSON.parse(response.posts)
     if (response.name == getCookie(document, 'name')) {
-      setIsLogin(true)
       setUserData(response)
     }
   }
@@ -37,6 +38,7 @@ const App = () => {
   useEffect(() => {
     if (getCookie(document, 'name') && getCookie(document, 'password')) {
       setIsLoading(true)
+      setIsLogin(true)
       checkData()
       setIsLoading(false)
     }
@@ -51,7 +53,9 @@ const App = () => {
         {isLogin?
         <Routes>
           <Route path="/" element={<Main/>}/>
-          <Route path="/:postId" element={<Post/>}/>
+          <Route path="/users/:user" element={<User/>}/>
+          <Route path="/users/:user/posts/:id" element={<Post/>}/>
+          <Route path="/posts/:postId" element={<UserPagePost/>}/>
           <Route path='/error' element={<Error/>}/>
           <Route path='/error/:wrongPath' element={<Error/>}/>
           <Route path='*' element={<Error/>}/>
@@ -59,6 +63,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path='/error' element={<Error/>}/>
+          <Route path='/error/:wrongPath' element={<Error/>}/>
           <Route path='*' element={<Error/>}/>
         </Routes>}
       </BrowserRouter>

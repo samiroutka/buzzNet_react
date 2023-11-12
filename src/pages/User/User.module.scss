@@ -1,0 +1,27 @@
+
+.User{
+  margin: 0 auto;
+  width: 90%;
+}
+
+.User__header{
+  display: flex;
+  align-items: center;
+}
+
+.User__avatar{
+  margin-right: 3vw;
+}
+
+.User__posts{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.User__post{
+  width: 50%;
+  height: 20vh;
+  box-sizing: border-box;
+  border: 2px solid black;
+}
+

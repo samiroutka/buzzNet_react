@@ -57,3 +57,19 @@
   margin: 0 auto;
   width: 90%;
 }
+
+.searchUser__users{
+  display: flex;
+  flex-direction: column;
+}
+
+.searchUser__user{
+  margin-bottom: 5%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.searchUser__avatar{
+  margin-right: 3%;
+}

@@ -1,26 +1,9 @@
 
-.post{
+.Post{
   margin: 0 auto;
-  padding-top: 5%;
   width: 90%;
 }
 
-.title{
-  width: 100%;
-}
-
-.saveButton{
-  margin: 0 auto;
-  margin-top: 10%;
-  display: flex;
-}
-.deleteButton{
-  margin: 0 auto;
-  margin-top: 5%;
-  display: flex;
-  background-color: red;
-}
-
-.editor{
-  width: 100%;
+.Post__title{
+  text-align: center;
 }
