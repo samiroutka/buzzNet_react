@@ -1,5 +1,5 @@
 
-export let getUser = async (name, password) => {
+export let checkUser = async (name, password) => {
   let apiUrl = import.meta.env.VITE_APIURL
   let formData = new FormData()
   formData.append('name', name)
@@ -10,7 +10,7 @@ export let getUser = async (name, password) => {
   })
   response = await response.json()
   if (response.posts) {
-    response.posts = JSON.parse(response.posts)
+    jsonParseData(response)
   }
   return response
 }
@@ -25,4 +25,11 @@ export let rememberUser = (document, name, password) => {
   let maxAge = 120
   document.cookie = `name=${name};max-age=${maxAge}`    
   document.cookie = `password=${password};max-age=${maxAge}`    
+}
+
+export let jsonParseData = (data) => {
+  data.posts = JSON.parse(data.posts)
+  data.subscribers = JSON.parse(data.subscribers)
+  data.subscriptions = JSON.parse(data.subscriptions)
+  return data
 }

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { useNavigate } from 'react-router'
-import MyField from '../../components/UI/MyField/MyField.jsx'
+import MyField from '@/components/UI/MyField/MyField.jsx'
 import styles from './Register.module.scss'
-import MySubmitButton from './../../components/UI/MySubmitButton/MySubmitButton';
-import MyLoader from './../../components/UI/MyLoader/MyLoader';
-import { Context } from '../../context'
-import { rememberUser } from '../../utils.js'
+import MySubmitButton from '@/components/UI/MySubmitButton/MySubmitButton';
+import MyLoader from '@/components/UI/MyLoader/MyLoader';
+import { Context } from '@/context'
+import { rememberUser, jsonParseData } from '@/utils.js'
 
 const Register = () => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -31,8 +31,7 @@ const Register = () => {
       if (checkBox.current.checked) {
         rememberUser(document, field1.current.value, field2.current.value)
       }
-      response.posts = JSON.parse(response.posts)
-      setUserData(response)
+      setUserData(jsonParseData(response))
       setIsLogin(true)
       navigateTo('/')
       return true

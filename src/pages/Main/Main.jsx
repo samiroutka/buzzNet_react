@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './Main.module.scss'
 import './Main.scss'
-import Line from '../../components/Line/Line'
-import UserPage from '../../components/UserPage/UserPage'
-import Search from './../../components/Search/Search'
+import Line from '@/components/Line/Line'
+import UserPage from '@/components/UserPage/UserPage'
+import Search from '@/components/Search/Search'
 import { Tab, Tabs, TabsList, TabPanel } from '@mui/base';
 
 const Main = () => {

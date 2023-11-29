@@ -10,7 +10,7 @@ import UserPagePost from './pages/UserPagePost/UserPagePost'
 import User from './pages/User/User'
 import Post from './pages/Post/Post.jsx'
 import {Context} from './context.js' 
-import {getCookie} from './utils.js'
+import { getCookie, jsonParseData } from './utils.js'
 import { StyledEngineProvider } from '@mui/material/styles';
 
 const App = () => {
@@ -29,9 +29,8 @@ const App = () => {
       body: formData,
     })
     response = await response.json()
-    response.posts = JSON.parse(response.posts)
     if (response.name == getCookie(document, 'name')) {
-      setUserData(response)
+      setUserData(jsonParseData(response))
     }
   }
 

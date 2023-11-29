@@ -2,9 +2,11 @@ import React from 'react'
 import styles from './Search.module.scss'
 import { TextField, CircularProgress, IconButton, Avatar} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router'
 import { Tab, Tabs, TabsList, TabPanel } from '@mui/base';
+import { jsonParseData } from '@/utils.js';
+import { Context } from '@/context';
 
 const SearchHeader = ({searchFunction, placeholder}) => {
   let inputRef = useRef()
@@ -14,8 +16,11 @@ const SearchHeader = ({searchFunction, placeholder}) => {
     <div className={styles.search__header}>
       <TextField ref={inputRef} className={styles.search__searchField} placeholder={placeholder}/>
       <IconButton onClick={async () => {
-        await searchFunction(inputRef)
-      }} className={styles.search__searchButton}>
+        if (inputRef.current.querySelector('input').value.length > 0 && inputRef.current.querySelector('input').value[0] != ' '){
+          console.log('search...')
+          await searchFunction(inputRef)
+        }
+        }} className={styles.search__searchButton}>
         <SearchIcon color='primary'/>
       </IconButton>
     </div>
@@ -61,6 +66,7 @@ const SearchUser = React.forwardRef((props, ref) => {
   let apiUrl = import.meta.env.VITE_APIURL
   let [foundUsers, setFoundUsers] = useState(['Initial'])
   let [isLoading, setIsLoading] = useState(false)
+  let {userData} = useContext(Context)
   let navigateTo = useNavigate()
 
   let searchUser = async (inputRef) => {
@@ -68,6 +74,13 @@ const SearchUser = React.forwardRef((props, ref) => {
     let inputValue = inputRef.current.querySelector('input').value
     let response = await fetch(`${apiUrl}users/${inputValue}`)
     response = await response.json()
+    for (let user of response) {
+      user = jsonParseData(user)
+    }
+    for (let user of response) {
+      user.name == userData.name ? response.splice(response.indexOf(user), 1) : false
+    }
+    console.log(response)
     setFoundUsers(response)
     setIsLoading(false)
   }
@@ -87,7 +100,8 @@ const SearchUser = React.forwardRef((props, ref) => {
         }}>
           <Avatar className={styles.searchUser__avatar} src={apiUrl + user.avatar}/>
           <p>{user.name}</p>
-        </div>)}
+        </div>)
+        }
       </div>}
     </div>
   )

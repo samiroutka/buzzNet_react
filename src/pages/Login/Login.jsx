@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import styles from './Login.module.scss'
-import MyField from '../../components/UI/MyField/MyField'
-import MySubmitButton from './../../components/UI/MySubmitButton/MySubmitButton'
-import { Context } from '../../context'
-import MyLoader from './../../components/UI/MyLoader/MyLoader';
-import { getUser, rememberUser } from '../../utils'
+import MyField from '@/components/UI/MyField/MyField'
+import MySubmitButton from '@/components/UI/MySubmitButton/MySubmitButton'
+import { Context } from '@/context'
+import MyLoader from '@/components/UI/MyLoader/MyLoader';
+import { checkUser, rememberUser } from '@/utils'
 
 const Login = () => {
   let {setIsLoading, isLoading, setIsLogin, setUserData} = useContext(Context)
@@ -22,7 +22,7 @@ const Login = () => {
 
   let checkAccount = async (form) => {
     clearErrors()
-    let response = await getUser(field1.current.value, field2.current.value)
+    let response = await checkUser(field1.current.value, field2.current.value)
     if (response.name == field1.current.value){
       if (checkBox.current.checked) {
         rememberUser(document, field1.current.value, field2.current.value)

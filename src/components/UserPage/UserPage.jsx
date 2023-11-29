@@ -1,14 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import styles from './UserPage.module.scss'
-import {Context} from '../../context.js'
+import {Context} from '@/context.js'
 import post_adding from './images/post_adding.svg'
 import { useNavigate } from 'react-router';
 import { Avatar } from '@mui/material'
-import MyLoader from '../UI/MyLoader/MyLoader.jsx';
+import MyLoader from '@/components/UI/MyLoader/MyLoader.jsx';
 import { CircularProgress, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Button, TextField } from '@mui/material';
 import { useRef } from 'react';
+import { rememberUser } from '@/utils'
 import { useState } from 'react';
 
 const UserPage = React.forwardRef((props, ref) => {
@@ -23,6 +24,11 @@ const UserPage = React.forwardRef((props, ref) => {
   let [isSettingsLoading, setIsSettingsLoading] = useState(false)
   let [settingsNameError, setSettingsNameError] = useState(false)
   let [settingsPasswordError, setSettingsPasswordError] = useState(false)
+  let [settingsAvatarUrl, setSettingsAvatarUrl] = useState()
+
+  useEffect(() => {
+    setSettingsAvatarUrl(apiUrl + userData.avatar)
+  }, [userData])
 
   let updateData = async () => {
     let formData = new FormData()
@@ -37,6 +43,7 @@ const UserPage = React.forwardRef((props, ref) => {
     if (response.name == fieldNameRef.current.querySelector('input').value) {
       response.posts = JSON.parse(response.posts)
       setUserData(response)
+      rememberUser(document, response.name, response.password)
     } else {
       console.log(response)
     }
@@ -65,20 +72,20 @@ const UserPage = React.forwardRef((props, ref) => {
         <div className={styles.usePage} {...props} ref={ref}>
           <div ref={settingsRef} className={styles.settings}>
             {isSettingsLoading ? <CircularProgress className={styles.settings__loader}/> : <></>}
-            <input ref={avatarInputSettingsRef} hidden accept="image/*" type="file" id='settingAvatar'/>
-            <label htmlFor="settingAvatar"><Avatar className={styles.settings__avatar} src={apiUrl + userData.avatar}/></label>
+            <input ref={avatarInputSettingsRef} onChange={event => {
+              setSettingsAvatarUrl(URL.createObjectURL(event.target.files[0]))
+            }} hidden accept="image/*" type="file" id='settingAvatar'/>
+            <label htmlFor="settingAvatar"><Avatar className={styles.settings__avatar} src={settingsAvatarUrl}/></label>
             <TextField ref={fieldNameRef} error={Boolean(settingsNameError)} helperText={settingsNameError} label='Имя' defaultValue={userData.name}/>
             <TextField ref={fieldPasswordRef} error={Boolean(settingsPasswordError)} helperText={settingsPasswordError} label='Пароль' defaultValue={userData.password}/>
             <Button onClick={async () => {
+              setIsSettingsLoading(true)
+              setSettingsNameError(false)
+              setSettingsPasswordError(false)
               let inputNameLength = fieldNameRef.current.querySelector('input').value.length
               let inputPasswordLength = fieldPasswordRef.current.querySelector('input').value.length
-              setIsSettingsLoading(true)
-              if (inputNameLength < 6) {
-                setSettingsNameError('Недостоточно символов (<6)')
-              }
-              if (inputPasswordLength < 6) {
-                setSettingsPasswordError('Недостоточно символов (<6)')
-              }
+              inputNameLength < 6 ? setSettingsNameError('Недостоточно символов (<6)') : false
+              inputPasswordLength < 6 ? setSettingsPasswordError('Недостоточно символов (<6)') : false
               if (inputNameLength >= 6 && inputPasswordLength >= 6){
                 setSettingsNameError(false)
                 setSettingsPasswordError(false)
@@ -109,15 +116,15 @@ const UserPage = React.forwardRef((props, ref) => {
             <div className={styles.data}>
               <p className={styles.data__block}>
                 <strong>Посты</strong>
-                <span>{!userData.posts ? 0 : userData.posts.length}</span>
+                <span>{userData.posts.length}</span>
               </p>
               <p className={styles.data__block}>
                 <strong>Подписчики</strong>
-                <span>{!userData.subscribers ? 0 : userData.subscribers}</span>
+                <span>{userData.subscribers.length}</span>
               </p>
               <p className={styles.data__block}>
                 <strong>Подписки</strong>
-                <span>{!userData.subscriptions ? 0 : userData.subscriptions}</span>
+                <span>{userData.subscriptions.length}</span>
               </p>
             </div>
             <div className={styles.posts}>
