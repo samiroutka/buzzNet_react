@@ -50,14 +50,14 @@ const User = () => {
     if (type == 'unsubscription') {
       foundUserData.subscribers.splice(foundUserData.subscribers.indexOf(userData.name), 1)
     } else if (type == 'subscription'){
-      foundUserData.subscribers = [...userData.subscriptions, foundUserData.name]
+      foundUserData.subscribers = [...foundUserData.subscribers, userData.name]
     }
-    setFoundUserData(foundUserData)
-    formData2.append('subscriptions', JSON.stringify(foundUserData.subscribers))
+    formData2.append('subscribers', JSON.stringify(foundUserData.subscribers))
     await fetch(`${apiUrl}user/${user}`, {
       method: 'put',
       body: formData2
     })
+    setFoundUserData(foundUserData)
   }
 
   useEffect(() => {

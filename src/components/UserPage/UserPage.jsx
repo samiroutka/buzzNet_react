@@ -65,6 +65,14 @@ const UserPage = React.forwardRef((props, ref) => {
     navigateTo(`/posts/${newPost.id}`)
   }
 
+  let container_subscribers = useRef()
+  let container_subscriptions = useRef()
+  let showList = (type) => {
+    // subscribers/subscriptions
+    type == 'subscribers' ? container_subscribers.current.classList.add(styles.data__listContainer_active)
+    : container_subscriptions.current.classList.add(styles.data__listContainer_active)
+  }
+
   // --------------------
   return (
     <>
@@ -118,14 +126,32 @@ const UserPage = React.forwardRef((props, ref) => {
                 <strong>Посты</strong>
                 <span>{userData.posts.length}</span>
               </p>
-              <p className={styles.data__block}>
+              <p className={styles.data__block} onClickCapture={event => showList('subscribers')}>
                 <strong>Подписчики</strong>
                 <span>{userData.subscribers.length}</span>
               </p>
-              <p className={styles.data__block}>
+              <div ref={container_subscribers} className={styles.data__listContainer}>
+                <div className={styles.data__list}>
+                  {userData.subscribers.map(subscriber =>
+                    <div className={styles.data__listItem} key={subscriber}>
+                      <p>{subscriber}</p>
+                    </div>)}
+                </div>
+                <div className={styles.carpet_test} onClick={() => container_subscribers.current.classList.remove(styles.data__listContainer_active)}></div>
+              </div>
+              <p className={styles.data__block} onClick={() => showList('subscriptions')}>
                 <strong>Подписки</strong>
                 <span>{userData.subscriptions.length}</span>
               </p>
+              <div ref={container_subscriptions} className={styles.data__listContainer}>
+                <div className={styles.data__list}>
+                  {userData.subscriptions.map(subscription =>
+                    <div className={styles.data__listItem} key={subscription}>
+                      <p>{subscription}</p>
+                    </div>)}
+                </div>
+                <div className={styles.carpet_test} onClick={() => container_subscriptions.current.classList.remove(styles.data__listContainer_active)}></div>
+              </div>
             </div>
             <div className={styles.posts}>
               {userData.posts.map(post => 

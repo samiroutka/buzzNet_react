@@ -59,6 +59,61 @@ header{
   z-index: 9;
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+// ------------lists--------------
+
+.data__listContainer{
+  .carpet_test{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 19;
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: all .2s linear;
+  }
+}
+.data__list{
+  padding: 5%;
+  box-sizing: border-box;
+  width: 70%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 20;
+  transform: translateX(100%);
+  display: flex;
+  flex-direction: column;
+  transition: all .2s ease-in;
+  background-color: white;
+}
+.data__listContainer_active{
+  .data__list{
+    transform: translateX(0);
+  }
+  .carpet_test{
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.data__listItem{
+  margin-bottom: 5%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.data__listItemAvatar{
+  margin-right: 3%;
+}
+
+// ------------settings--------------
+
 .settings__loader{
   margin: 0;
   position: absolute;
