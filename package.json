@@ -16,9 +16,11 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
     "@tinymce/tinymce-react": "^4.3.0",
+    "framer-motion": "^10.16.14",
     "idempotent-babel-polyfill": "^7.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.5.3",
     "sass": "^1.69.5"
   },
   "devDependencies": {
