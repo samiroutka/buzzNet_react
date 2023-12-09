@@ -3,10 +3,6 @@ import { useParams } from 'react-router';
 
 const Error = () => {
   let {wrongPath} = useParams()
-  
-  useEffect(() => {
-    console.log(wrongPath)
-  }, [])
 
   // --------------------
   return (

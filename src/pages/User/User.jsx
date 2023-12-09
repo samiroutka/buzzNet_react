@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import styles from './User.module.scss'
 import { useParams, useLocation } from 'react-router';
 import { Avatar, Button } from '@mui/material'
@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router'
 import { Context } from '@/context';
 import { jsonParseData } from '@/utils.js';
 import MyLoader from '@/components/UI/MyLoader/MyLoader';
+import { WithCarpet } from '@/components/UI/WithCarpet/WithCarpet.jsx';
+import { Subs } from '@/components/subs/Subs';
 
 const User = () => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -70,6 +72,18 @@ const User = () => {
     }
   }, [foundUserData, userData])
 
+  let [dataListsActiveClass, setDataListsActiveClass] = useState(false)
+  let getActiveClass = (activeClass) => {
+    setDataListsActiveClass(activeClass)
+  }
+  let dataListSubscribersRef = useRef()
+  let dataListSubscriptionsRef = useRef()
+  let showList = (type) => {
+    // subscribers/subscriptions
+    type == 'subscribers' ? dataListSubscribersRef.current.classList.add(dataListsActiveClass)
+    : dataListSubscriptionsRef.current.classList.add(dataListsActiveClass)
+  }
+
   // --------------------
   return (
     <>
@@ -89,14 +103,20 @@ const User = () => {
               <strong>Постов</strong>
               <span>{foundUserData.posts.length}</span>
             </p>
-            <p>
+            <p onClick={() => {showList('subscribers')}}>
               <strong>Подписчиков</strong>
               <span>{foundUserData.subscribers.length}</span>
             </p>
-            <p>
+            <WithCarpet activeClass={dataListsActiveClass}>
+              <Subs ref={dataListSubscribersRef} type='subscribers' userData={foundUserData} activeClassCallback={getActiveClass}/>
+            </WithCarpet>
+            <p onClick={() => {showList('subscriptions')}}>
               <strong>Подписок</strong>
               <span>{foundUserData.subscriptions.length}</span>
             </p>
+            <WithCarpet activeClass={dataListsActiveClass}>
+              <Subs ref={dataListSubscriptionsRef} type='subscriptions' userData={foundUserData} activeClassCallback={getActiveClass}/>
+            </WithCarpet>
           </div>
           <div className={styles.User__posts}>
             {foundUserData.posts.map(post => 

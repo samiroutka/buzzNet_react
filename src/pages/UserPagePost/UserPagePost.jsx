@@ -43,11 +43,20 @@ const UserPagePost = () => {
     navigateTo('/')
   }
 
+  let checkPostId = () => {
+    for (let post of userData.posts) {
+      if (post.id == Number(postId)) {
+         return true
+      }
+    }
+    return false
+  }
+
   // ----------
   return (
     <>
       {!userData ? <MyLoader/> :
-        Number(postId) <= userData.posts.length ? 
+         checkPostId() ? 
           <div className={styles.post}>
             {isLoading ? <MyLoader/> : <></>}
             <TextField ref={titleElement} className={styles.title} defaultValue={post.title} id="standard-basic" label="Название поста" variant="standard"/>

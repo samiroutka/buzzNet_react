@@ -12,6 +12,7 @@ import { useRef } from 'react';
 import { rememberUser, jsonParseData } from '@/utils'
 import { useState } from 'react';
 import { WithCarpet } from '@/components/UI/WithCarpet/WithCarpet.jsx';
+import {Subs} from '@/components/Subs/Subs'
 
 const UserPage = React.forwardRef((props, ref) => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -29,12 +30,16 @@ const UserPage = React.forwardRef((props, ref) => {
     navigateTo(`/posts/${newPost.id}`)
   }
 
+  let [dataListsActiveClass, setDataListsActiveClass] = useState(false)
+  let getActiveClass = (activeClass) => {
+    setDataListsActiveClass(activeClass)
+  }
   let dataListSubscribersRef = useRef()
   let dataListSubscriptionsRef = useRef()
   let showList = (type) => {
     // subscribers/subscriptions
-    type == 'subscribers' ? dataListSubscribersRef.current.classList.add(styles.data__list_active)
-    : dataListSubscriptionsRef.current.classList.add(styles.data__list_active)
+    type == 'subscribers' ? dataListSubscribersRef.current.classList.add(dataListsActiveClass)
+    : dataListSubscriptionsRef.current.classList.add(dataListsActiveClass)
   }
 
   // -----------------Components---------------------
@@ -48,10 +53,6 @@ const UserPage = React.forwardRef((props, ref) => {
     let fieldNameRef = useRef()
     let fieldPasswordRef = useRef()
     let avatarInputSettingsRef = useRef()
-
-    useEffect(() => {
-      console.log(isSettingsOpen)
-    }, [])
 
     useEffect(() => {
       setSettingsAvatarUrl(apiUrl + userData.avatar)
@@ -101,7 +102,7 @@ const UserPage = React.forwardRef((props, ref) => {
 
     // ------------
     return (
-      <div ref={settingsRef} className={`${styles.settings} ${isSettingsOpen ? styles.settings_active : false}`}>
+      <div ref={ref} className={`${styles.settings} ${isSettingsOpen ? styles.settings_active : false}`}>
         {isSettingsLoading ? <CircularProgress className={styles.settings__loader}/> : <></>}
         <input ref={avatarInputSettingsRef} onChange={event => {
           setSettingsAvatarUrl(URL.createObjectURL(event.target.files[0]))
@@ -119,7 +120,6 @@ const UserPage = React.forwardRef((props, ref) => {
       </div>
     )
   })
-
 
   // ------------------------------------------------
   return (
@@ -150,27 +150,15 @@ const UserPage = React.forwardRef((props, ref) => {
                 <strong>Подписчики</strong>
                 <span>{userData.subscribers.length}</span>
               </p>
-              <WithCarpet activeClass={styles.data__list_active}>
-                <div ref={dataListSubscribersRef} className={styles.data__list}>
-                  {userData.subscribers.map(subscriber =>
-                    <div className={styles.data__listItem} key={subscriber}>
-                      <a href={`${location.href}users/${subscriber}`}>{subscriber}</a>
-                    </div>)
-                  }
-                </div>
+              <WithCarpet activeClass={dataListsActiveClass}>
+                <Subs ref={dataListSubscribersRef} activeClassCallback={getActiveClass} type='subscribers' userData={userData} />
               </WithCarpet>
               <p className={styles.data__block} onClick={() => showList('subscriptions')}>
                 <strong>Подписки</strong>
                 <span>{userData.subscriptions.length}</span>
               </p>
-              <WithCarpet activeClass={styles.data__list_active}>
-                <div ref={dataListSubscriptionsRef} className={styles.data__list}>
-                  {userData.subscriptions.map(subscription =>
-                    <div className={styles.data__listItem} key={subscription}>
-                      <a href={`${location.href}users/${subscription}`}>{subscription}</a>
-                    </div>)
-                  }
-                </div>
+              <WithCarpet activeClass={dataListsActiveClass}>
+                <Subs ref={dataListSubscriptionsRef} activeClassCallback={getActiveClass} type='subscriptions' userData={userData} />
               </WithCarpet>
             </div>
             <div className={styles.posts}>

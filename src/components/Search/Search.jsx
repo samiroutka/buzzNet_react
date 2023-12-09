@@ -80,7 +80,6 @@ const SearchUser = React.forwardRef((props, ref) => {
     for (let user of response) {
       user.name == userData.name ? response.splice(response.indexOf(user), 1) : false
     }
-    console.log(response)
     setFoundUsers(response)
     setIsLoading(false)
   }
@@ -96,7 +95,7 @@ const SearchUser = React.forwardRef((props, ref) => {
         <p>Страничек нету</p> :
         foundUsers.map(user => 
         <div className={styles.searchUser__user} key={user.name} onClick={() => {
-          navigateTo(`/users/${user.name}`, {state: user})
+          navigateTo(`/users/${user.name}/`, {state: user})
         }}>
           <Avatar className={styles.searchUser__avatar} src={apiUrl + user.avatar}/>
           <p>{user.name}</p>
