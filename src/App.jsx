@@ -52,6 +52,8 @@ const App = () => {
         {isLogin?
         <Routes>
           <Route path="/" element={<Main/>}/>
+          <Route path="/line" element={<Main/>}/>
+          <Route path="/search" element={<Main/>}/>
           <Route path="/users/:user" element={<User/>}/>
           <Route path="/users/:user/posts/:id" element={<Post/>}/>
           <Route path="/posts/:postId" element={<UserPagePost/>}/>

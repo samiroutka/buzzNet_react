@@ -119,12 +119,14 @@ const User = () => {
             </WithCarpet>
           </div>
           <div className={styles.User__posts}>
-            {foundUserData.posts.map(post => 
-            <div className={styles.User__post} key={post.id} onClick={() => {
-              navigateTo(`/users/${foundUserData.name}/posts/${post.id}`, {state: post})
-            }}>
-              {post.title}
-            </div>)}
+            {foundUserData.posts.length > 0 ?
+              foundUserData.posts.map(post => 
+                <div className={styles.User__post} key={post.id} onClick={() => {
+                  navigateTo(`/users/${foundUserData.name}/posts/${post.id}`, {state: post})
+                }}>
+                  {post.title}
+                </div>)
+            : <h2 style={{margin: '0 auto'}}>Постов нету (</h2>}
           </div>
         </div>
       }
