@@ -7,7 +7,8 @@ import { Context } from '@/context';
 import { jsonParseData } from '@/utils.js';
 import MyLoader from '@/components/UI/MyLoader/MyLoader';
 import { WithCarpet } from '@/components/UI/WithCarpet/WithCarpet.jsx';
-import { Subs } from '@/components/subs/Subs';
+import { Subs } from '@/components/Subs/Subs';
+import { MyPost } from '@/components/UI/MyPost/MyPost.jsx';
 
 const User = () => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -121,11 +122,13 @@ const User = () => {
           <div className={styles.User__posts}>
             {foundUserData.posts.length > 0 ?
               foundUserData.posts.map(post => 
-                <div className={styles.User__post} key={post.id} onClick={() => {
-                  navigateTo(`/users/${foundUserData.name}/posts/${post.id}`, {state: post})
-                }}>
-                  {post.title}
-                </div>)
+                // <div className={styles.User__post} key={post.id} onClick={() => {
+                //   navigateTo(`/users/${foundUserData.name}/posts/${post.id}`, {state: post})
+                // }}>
+                //   {post.title}
+                // </div>
+                <MyPost post={post} onClick={() => {navigateTo(`/users/${user}/posts/${post.id}`)}}/>
+              )
             : <h2 style={{margin: '0 auto'}}>Постов нету (</h2>}
           </div>
         </div>

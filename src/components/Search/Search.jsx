@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './Search.module.scss'
 import { TextField, CircularProgress, IconButton, Avatar} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router'
 import { Tab, Tabs, TabsList, TabPanel } from '@mui/base';
 import { jsonParseData } from '@/utils.js';
 import { Context } from '@/context';
+import {MyPost} from '@/components/UI/MyPost/MyPost.jsx'
 
 const SearchHeader = ({searchFunction, placeholder}) => {
   let inputRef = useRef()
@@ -52,11 +53,8 @@ const SearchPost = React.forwardRef((props, ref) => {
         foundPosts.length == 0 ?
         <p>Постов нету</p> :
         foundPosts.map(post => 
-        <div className={styles.searchPost__post} key={Math.random()} onClick={() => {
-          navigateTo(`/users/${post.user}/posts/${post.id}`, {state: post})
-        }}>
-          <p>{post.title}</p>
-        </div>)}
+          <MyPost post={post} onClick={() => {navigateTo(`/users/${post.user}/posts/${post.id}`, {state: post})}}/>
+        )}
       </div>}
     </div>
   )

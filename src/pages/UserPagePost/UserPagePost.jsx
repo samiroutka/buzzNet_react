@@ -7,6 +7,7 @@ import MyLoader from '../../components/UI/MyLoader/MyLoader'
 import { Editor } from '@tinymce/tinymce-react';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
+import add_image from './add_image.svg';
 
 const UserPagePost = () => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -14,15 +15,19 @@ const UserPagePost = () => {
   let {userData, setUserData} = useContext(Context)
   let {postId} = useParams()
   let titleElement = useRef()
+  let previewElement = useRef()
   let [isLoading, setIsLoading] = useState(true)
   let editorRef = useRef()
   let post = userData ? userData.posts.find(post => post.id == postId) : false
   let [mediaLoader, setMediaLoader] = useState(false)
   let [editorAlert, setEditorAlert] = useState(false)
+  let [previewImage, setPreviewImage] = useState(post.preview ? post.preview : add_image)
 
   let savePost = async () => {
     let formData = new FormData()
     formData.append('title', titleElement.current.querySelector('input').value)
+    formData.append('preview', previewElement.current.src.includes(location.host) ?
+    '' : previewElement.current.src)
     formData.append('content', editorRef.current.editor.getContent())
     let response = await fetch(`${apiUrl}user/${userData.name}/posts/${postId}`, {
       method: 'PUT',
@@ -32,6 +37,7 @@ const UserPagePost = () => {
     if (response) {
       userData.posts = response
       setUserData(userData)
+      history.back()
     }
   }
 
@@ -62,6 +68,23 @@ const UserPagePost = () => {
           <div className={styles.post}>
             {isLoading ? <MyLoader/> : <></>}
             <TextField ref={titleElement} className={styles.title} defaultValue={post.title} id="standard-basic" label="Название поста" variant="standard"/>
+            <img ref={previewElement} src={previewImage} className={styles.preview} alt="preview" onClick={() => {
+              let new_input = document.createElement('input')
+              new_input.setAttribute('type', 'file')
+              new_input.setAttribute('accept', 'image/*')
+              new_input.onchange = async () => {
+                setMediaLoader(true)
+                let formData = new FormData()
+                formData.append('media', new_input.files[0])
+                let response = await fetch(`${apiUrl}mediadowloading/images/`, {
+                  method: 'post',
+                  body: formData
+                })
+                setPreviewImage(`${apiUrl}${await response.json()}`)
+                setMediaLoader(false)
+              }
+              new_input.click()
+            }}/>
             {mediaLoader ? <div className={styles.mediaLoader}><CircularProgress/></div> : null}
             {editorAlert ? <Alert className={styles.editorAlert} severity="info" onClose={() => {
               setEditorAlert(false)

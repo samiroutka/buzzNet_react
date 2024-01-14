@@ -9,16 +9,14 @@
   width: 100%;
 }
 
-.saveButton{
-  margin: 0 auto;
-  margin-top: 10%;
-  display: flex;
-}
-.deleteButton{
-  margin: 0 auto;
-  margin-top: 5%;
-  display: flex;
-  background-color: red;
+.preview{
+  margin: 5% auto;
+  width: 25vh;
+  height: 15vh;
+  position: relative;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 1vh/1vh;
 }
 
 .mediaLoader{
@@ -43,4 +41,16 @@
 }
 .editor{
   width: 100%;
+}
+
+.saveButton{
+  margin: 0 auto;
+  margin-top: 10%;
+  display: flex;
+}
+.deleteButton{
+  margin: 0 auto;
+  margin-top: 5%;
+  display: flex;
+  background-color: red;
 }

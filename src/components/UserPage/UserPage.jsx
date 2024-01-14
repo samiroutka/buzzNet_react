@@ -1,34 +1,22 @@
 import React, { useContext, useEffect } from 'react'
 import styles from './UserPage.module.scss'
 import {Context} from '@/context.js'
-import post_adding from './images/post_adding.svg'
 import { useNavigate } from 'react-router';
-import { Avatar } from '@mui/material'
 import MyLoader from '@/components/UI/MyLoader/MyLoader.jsx';
-import { CircularProgress, IconButton } from '@mui/material';
+import { CircularProgress, IconButton, Avatar, Button, TextField, Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Button, TextField } from '@mui/material';
 import { useRef } from 'react';
 import { rememberUser, jsonParseData } from '@/utils'
 import { useState } from 'react';
 import { WithCarpet } from '@/components/UI/WithCarpet/WithCarpet.jsx';
 import {Subs} from '@/components/Subs/Subs'
+import {MyPost, MyPostAdding} from '../UI/MyPost/MyPost';
 
 const UserPage = React.forwardRef((props, ref) => {
   let apiUrl = import.meta.env.VITE_APIURL
   let navigateTo = useNavigate()
   let {userData, setUserData} = useContext(Context)
   let settingsRef = useRef()
-
-  let addPost = async () => {
-    let response = await fetch(`${apiUrl}user/${userData.name}/posts`, {
-      method: 'POST',
-    })
-    let newPost = await response.json()
-    userData.posts.push(newPost)
-    setUserData(userData)
-    navigateTo(`/posts/${newPost.id}`)
-  }
 
   let [dataListsActiveClass, setDataListsActiveClass] = useState(false)
   let getActiveClass = (activeClass) => {
@@ -42,7 +30,7 @@ const UserPage = React.forwardRef((props, ref) => {
     : dataListSubscriptionsRef.current.classList.add(dataListsActiveClass)
   }
 
-  // -----------------Components---------------------
+  // -----------------Component---------------------
 
   let [isSettingsOpen, setIsSettingsOpen] = useState(false)
   let UserSettings = React.forwardRef((props, ref) => {
@@ -107,7 +95,7 @@ const UserPage = React.forwardRef((props, ref) => {
         <input ref={avatarInputSettingsRef} onChange={event => {
           setSettingsAvatarUrl(URL.createObjectURL(event.target.files[0]))
         }} hidden accept="image/*" type="file" id='settingsAvatar'/>
-        <label htmlFor="settingsAvatar"><Avatar className={styles.settings__avatar} src={settingsAvatarUrl}/></label>
+        <label htmlFor="settingsAvatar" className={styles.settings__avatar_label}><Avatar className={styles.settings__avatar} src={settingsAvatarUrl}/></label>
         <TextField ref={fieldNameRef} error={Boolean(settingsNameError)} helperText={settingsNameError} label='Имя' defaultValue={userData.name}></TextField>
         <TextField ref={fieldPasswordRef} error={Boolean(settingsPasswordError)} helperText={settingsPasswordError} label='Пароль' defaultValue={userData.password}></TextField>
         <Button onClick={async () => {
@@ -163,14 +151,9 @@ const UserPage = React.forwardRef((props, ref) => {
             </div>
             <div className={styles.posts}>
               {userData.posts.map(post => 
-                <div className={styles.posts__post} onClick={() => {
-                  navigateTo(`/posts/${post.id}`)
-                }} key={post.id}>
-                  {post.title}
-                </div>)}
-              <div className={`${styles.posts__post} ${styles.posts__adding}`} onClick={addPost}>
-                <img src={post_adding} alt="+"/>
-              </div>
+                <MyPost post={post} onClick={() => {navigateTo(`/posts/${post.id}`)}}/>
+              )}
+              <MyPostAdding/>
             </div>
           </main>
         </div>

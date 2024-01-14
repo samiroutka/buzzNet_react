@@ -3,7 +3,9 @@ import styles from './MyLoader.module.scss'
 
 const MyLoader = () => {
   return (
-    <div className={styles.Loader}></div>
+    <div className={styles.Loader__wrapper}>
+      <div className={styles.Loader}></div>
+    </div>
   )
 }
 
