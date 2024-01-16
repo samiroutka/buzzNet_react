@@ -11,10 +11,11 @@
 
 .preview{
   margin: 5% auto;
-  width: 25vh;
+  width: fit-content;
   height: 15vh;
   position: relative;
   display: block;
+  object-fit: contain;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 1vh/1vh;
 }

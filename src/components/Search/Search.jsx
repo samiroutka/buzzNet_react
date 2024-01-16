@@ -53,7 +53,7 @@ const SearchPost = React.forwardRef((props, ref) => {
         foundPosts.length == 0 ?
         <p>Постов нету</p> :
         foundPosts.map(post => 
-          <MyPost post={post} onClick={() => {navigateTo(`/users/${post.user}/posts/${post.id}`, {state: post})}}/>
+          <MyPost user={true} post={post} onClick={() => {navigateTo(`/users/${post.user}/posts/${post.id}`, {state: post})}}/>
         )}
       </div>}
     </div>

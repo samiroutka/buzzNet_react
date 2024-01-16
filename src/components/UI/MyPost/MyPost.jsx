@@ -5,8 +5,9 @@ import styles from './MyPost.module.scss'
 import {Card, CardContent, CardMedia, CardActionArea} from '@mui/material'
 import no_image from './no_image.svg';
 import post_adding from './post_adding.svg'
+import { Avatar } from '@mui/material'
 
-export const MyPost = ({post, onClick}) => {
+export const MyPost = ({post, onClick, user}) => {
   let navigateTo = useNavigate()
 
   return (
@@ -19,7 +20,12 @@ export const MyPost = ({post, onClick}) => {
         />
         <CardContent>
           <p>{post.title}</p>
-          <span>{post.user}</span>
+          {user ? 
+            <div className={styles.posts__user}>
+              <Avatar className={styles.posts__avatar} src={post.preview}/>
+              <span>{post.user}</span>
+            </div> : null
+          }
         </CardContent>
       </CardActionArea>
     </Card>

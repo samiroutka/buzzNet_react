@@ -21,6 +21,7 @@ const User = () => {
   let [subscription, setSubscription] = useState(false)
 
   let getUser = async () => {
+    console.log('getUser')
     let response = await fetch(`${apiUrl}user/${user}`)
     response = await response.json()
     if (response != 'Wrong user'){
@@ -34,13 +35,44 @@ const User = () => {
 
   let changeSubscription = async (type) => {
     // subscription/unsubscription
+    // let formData = new FormData()
+    // if (type == 'unsubscription') {
+    //   userData.subscriptions.splice(userData.subscriptions.indexOf(foundUserData.name), 1)
+    //   formData.append('subscriptions', JSON.stringify(userData.subscriptions))
+    // } else if (type == 'subscription'){
+    //   formData.append('subscriptions', JSON.stringify([...userData.subscriptions, foundUserData.name]))
+    // }
+    // let response = await fetch(`${apiUrl}user/${userData.name}`, {
+    //   method: 'put',
+    //   body: formData
+    // })
+    // response = await response.json()
+    // response = jsonParseData(response)
+    // setUserData(response)
+
+    // let formData2 = new FormData()
+    // if (type == 'unsubscription') {
+    //   foundUserData.subscribers.splice(foundUserData.subscribers.indexOf(userData.name), 1)
+    // } else if (type == 'subscription'){
+    //   foundUserData.subscribers = [...foundUserData.subscribers, userData.name]
+    // }
+    // formData2.append('subscribers', JSON.stringify(foundUserData.subscribers))
+    // await fetch(`${apiUrl}user/${user}`, {
+    //   method: 'put',
+    //   body: formData2
+    // })
+    // setFoundUserData(foundUserData)
+    // ------------------------------
+    setIsLoading(true)
     let formData = new FormData()
     if (type == 'unsubscription') {
-      userData.subscriptions.splice(userData.subscriptions.indexOf(foundUserData.name), 1)
-      formData.append('subscriptions', JSON.stringify(userData.subscriptions))
-    } else if (type == 'subscription'){
-      formData.append('subscriptions', JSON.stringify([...userData.subscriptions, foundUserData.name]))
+      for (let user of userData.subscriptions) {
+        user.name == foundUserData.name ? userData.subscriptions.splice(userData.subscriptions.indexOf(user.name), 1) : null
+      }
+    } else if (type == 'subscription') {
+      userData.subscriptions = [...userData.subscriptions, {name: foundUserData.name, avatar: foundUserData.avatar}]
     }
+    formData.append('subscriptions', JSON.stringify(userData.subscriptions))
     let response = await fetch(`${apiUrl}user/${userData.name}`, {
       method: 'put',
       body: formData
@@ -51,9 +83,11 @@ const User = () => {
 
     let formData2 = new FormData()
     if (type == 'unsubscription') {
-      foundUserData.subscribers.splice(foundUserData.subscribers.indexOf(userData.name), 1)
+      for (let user of foundUserData.subscribers) {
+        user.name == userData.name ? foundUserData.subscribers.splice(foundUserData.subscribers.indexOf(user.name), 1) : null
+      }
     } else if (type == 'subscription'){
-      foundUserData.subscribers = [...foundUserData.subscribers, userData.name]
+      foundUserData.subscribers = [...foundUserData.subscribers, {name: userData.name, avatar: userData.avatar}]
     }
     formData2.append('subscribers', JSON.stringify(foundUserData.subscribers))
     await fetch(`${apiUrl}user/${user}`, {
@@ -61,6 +95,7 @@ const User = () => {
       body: formData2
     })
     setFoundUserData(foundUserData)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -69,7 +104,11 @@ const User = () => {
 
   useEffect(() => {
     if (foundUserData && userData) {
-      userData.subscriptions.includes(foundUserData.name) ? setSubscription(true) : setSubscription(false)
+      let isIncluded = false
+      for (let user of userData.subscriptions) {
+        user.name.includes(foundUserData.name) ? isIncluded = true : null
+      }
+      isIncluded ? setSubscription(true) : setSubscription(false)
     }
   }, [foundUserData, userData])
 

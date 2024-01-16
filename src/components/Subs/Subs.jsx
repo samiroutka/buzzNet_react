@@ -1,8 +1,11 @@
 import React from 'react'
 import styles from './Subs.module.scss'
 import { useEffect } from 'react'
+import { Avatar } from '@mui/material';
 
 export const Subs = React.forwardRef(({userData, type, activeClassCallback}, ref) => {
+  let apiUrl = import.meta.env.VITE_APIURL
+
   useEffect(() => {
     activeClassCallback(styles.data__list_active)
   }, [])
@@ -10,9 +13,15 @@ export const Subs = React.forwardRef(({userData, type, activeClassCallback}, ref
     <div ref={ref} className={styles.data__list}>
       {type == 'subscribers' ? 
       userData.subscribers.map(subscriber =>
-        <a href={`${location.origin}/users/${subscriber}/`} key={subscriber}>{subscriber}</a>)
+        <a className={styles.data__list_user} href={`${location.origin}/users/${subscriber.name}/`} key={subscriber.name}>
+          <Avatar className={styles.data__list_avatar} src={apiUrl + subscriber.avatar}/>
+          <span>{subscriber.name}</span>
+        </a>)
       : userData.subscriptions.map(subscription =>
-        <a href={`${location.origin}/users/${subscription}/`} key={subscription}>{subscription}</a>)
+        <a className={styles.data__list_user} href={`${location.origin}/users/${subscription.name}/`} key={subscription.name}>
+          <Avatar className={styles.data__list_avatar} src={apiUrl + subscription.avatar}/>
+          <span>{subscription.name}</span>
+        </a>)
       }
       {type == 'subscribers' && userData.subscribers.length == 0 ?
         <p>Подписчиков нету(</p> :
