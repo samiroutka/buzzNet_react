@@ -31,6 +31,8 @@
 .User__posts{
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: start;
 }
 
 .User__post{

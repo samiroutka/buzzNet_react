@@ -12,10 +12,12 @@
 .preview{
   margin: 5% auto;
   width: fit-content;
+  max-width: 70%;
   height: 15vh;
   position: relative;
   display: block;
   object-fit: contain;
+  overflow: hidden;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 1vh/1vh;
 }

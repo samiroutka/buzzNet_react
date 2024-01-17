@@ -23,6 +23,10 @@ const UserPagePost = () => {
   let [editorAlert, setEditorAlert] = useState(false)
   let [previewImage, setPreviewImage] = useState(post.preview ? post.preview : add_image)
 
+  useEffect(() => {
+    setPreviewImage(post.preview ? post.preview : add_image)
+  }, [userData])
+
   let savePost = async () => {
     let formData = new FormData()
     formData.append('title', titleElement.current.querySelector('input').value)

@@ -12,12 +12,11 @@ import { MyPost } from '@/components/UI/MyPost/MyPost.jsx';
 
 const User = () => {
   let apiUrl = import.meta.env.VITE_APIURL
-  let {state} = useLocation()
   let {user} = useParams()
   let {userData, setUserData} = useContext(Context)
   let navigateTo = useNavigate()
-  let [isLoading, setIsLoading] = useState(state ? false : true)
-  let [foundUserData, setFoundUserData] = useState(state ? state : false)
+  let [isLoading, setIsLoading] = useState(true)
+  let [foundUserData, setFoundUserData] = useState(false)
   let [subscription, setSubscription] = useState(false)
 
   let getUser = async () => {
@@ -34,35 +33,6 @@ const User = () => {
   }
 
   let changeSubscription = async (type) => {
-    // subscription/unsubscription
-    // let formData = new FormData()
-    // if (type == 'unsubscription') {
-    //   userData.subscriptions.splice(userData.subscriptions.indexOf(foundUserData.name), 1)
-    //   formData.append('subscriptions', JSON.stringify(userData.subscriptions))
-    // } else if (type == 'subscription'){
-    //   formData.append('subscriptions', JSON.stringify([...userData.subscriptions, foundUserData.name]))
-    // }
-    // let response = await fetch(`${apiUrl}user/${userData.name}`, {
-    //   method: 'put',
-    //   body: formData
-    // })
-    // response = await response.json()
-    // response = jsonParseData(response)
-    // setUserData(response)
-
-    // let formData2 = new FormData()
-    // if (type == 'unsubscription') {
-    //   foundUserData.subscribers.splice(foundUserData.subscribers.indexOf(userData.name), 1)
-    // } else if (type == 'subscription'){
-    //   foundUserData.subscribers = [...foundUserData.subscribers, userData.name]
-    // }
-    // formData2.append('subscribers', JSON.stringify(foundUserData.subscribers))
-    // await fetch(`${apiUrl}user/${user}`, {
-    //   method: 'put',
-    //   body: formData2
-    // })
-    // setFoundUserData(foundUserData)
-    // ------------------------------
     setIsLoading(true)
     let formData = new FormData()
     if (type == 'unsubscription') {
@@ -99,18 +69,24 @@ const User = () => {
   }
 
   useEffect(() => {
-    !foundUserData ? getUser() : false
+    getUser()
   }, [])
 
+  useEffect(() => {
+    user == userData.name ? navigateTo('/') : null
+  }, [userData])
+  
   useEffect(() => {
     if (foundUserData && userData) {
       let isIncluded = false
       for (let user of userData.subscriptions) {
         user.name.includes(foundUserData.name) ? isIncluded = true : null
       }
+      // isIncluded ? setSubscription(true) : setSubscription(false)
       isIncluded ? setSubscription(true) : setSubscription(false)
     }
   }, [foundUserData, userData])
+
 
   let [dataListsActiveClass, setDataListsActiveClass] = useState(false)
   let getActiveClass = (activeClass) => {
@@ -161,11 +137,6 @@ const User = () => {
           <div className={styles.User__posts}>
             {foundUserData.posts.length > 0 ?
               foundUserData.posts.map(post => 
-                // <div className={styles.User__post} key={post.id} onClick={() => {
-                //   navigateTo(`/users/${foundUserData.name}/posts/${post.id}`, {state: post})
-                // }}>
-                //   {post.title}
-                // </div>
                 <MyPost post={post} onClick={() => {navigateTo(`/users/${user}/posts/${post.id}`)}}/>
               )
             : <h2 style={{margin: '0 auto'}}>Постов нету (</h2>}

@@ -53,7 +53,7 @@ const SearchPost = React.forwardRef((props, ref) => {
         foundPosts.length == 0 ?
         <p>Постов нету</p> :
         foundPosts.map(post => 
-          <MyPost user={true} post={post} onClick={() => {navigateTo(`/users/${post.user}/posts/${post.id}`, {state: post})}}/>
+          <MyPost user={true} post={post} onClick={() => {navigateTo(`/users/${post.user}/posts/${post.id}`)}}/>
         )}
       </div>}
     </div>
@@ -93,7 +93,7 @@ const SearchUser = React.forwardRef((props, ref) => {
         <p>Страничек нету</p> :
         foundUsers.map(user => 
         <div className={styles.searchUser__user} key={user.name} onClick={() => {
-          navigateTo(`/users/${user.name}/`, {state: user})
+          navigateTo(`/users/${user.name}/`)
         }}>
           <Avatar className={styles.searchUser__avatar} src={apiUrl + user.avatar}/>
           <p>{user.name}</p>

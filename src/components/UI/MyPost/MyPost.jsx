@@ -8,8 +8,6 @@ import post_adding from './post_adding.svg'
 import { Avatar } from '@mui/material'
 
 export const MyPost = ({post, onClick, user}) => {
-  let navigateTo = useNavigate()
-
   return (
     <Card className={styles.posts__post} key={post.id} onClick={onClick}>
       <CardActionArea className={styles.posts__actionArea}>

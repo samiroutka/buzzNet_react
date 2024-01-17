@@ -4,6 +4,23 @@
   width: 90%;
 }
 
+.Post__header_wrapper{
+  padding: 2% 0;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: rgba(128, 128, 128, 0.2);
+  backdrop-filter: blur(.5vw);
+}
+.Post__header{
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .Post__title{
+  margin: 0;
   text-align: center;
 }
