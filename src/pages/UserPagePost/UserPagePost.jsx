@@ -4,6 +4,7 @@ import styles from './UserPagePost.module.scss'
 import { Context } from '../../context'
 import { TextField, Button, CircularProgress, Alert } from '@mui/material'
 import MyLoader from '../../components/UI/MyLoader/MyLoader'
+import MyLoaderMini from '../../components/UI/MyLoaderMini/MyLoaderMini'
 import { Editor } from '@tinymce/tinymce-react';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -89,7 +90,7 @@ const UserPagePost = () => {
               }
               new_input.click()
             }}/>
-            {mediaLoader ? <div className={styles.mediaLoader}><CircularProgress/></div> : null}
+            {mediaLoader ? <MyLoaderMini/> : null}
             {editorAlert ? <Alert className={styles.editorAlert} severity="info" onClose={() => {
               setEditorAlert(false)
             }}>Файл превышает 100 МБ</Alert> : null}
@@ -98,7 +99,6 @@ const UserPagePost = () => {
               }} init={{
                 menubar: false,
                 toolbar: 'undo redo | fontsize fontfamily bold italic | alignleft aligncenter alignright alignjustify | image media preview',
-                // plugins: 'image media preview imagetools searchreplace',
                 plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste imagetools wordcount',
                 file_picker_types: 'image media',
                 file_picker_callback: (cb, value, meta) => {

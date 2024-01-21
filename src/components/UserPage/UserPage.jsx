@@ -3,6 +3,7 @@ import styles from './UserPage.module.scss'
 import {Context} from '@/context.js'
 import { useNavigate } from 'react-router';
 import MyLoader from '@/components/UI/MyLoader/MyLoader.jsx';
+import MyLoaderMini from '@/components/UI/MyLoaderMini/MyLoaderMini.jsx';
 import { CircularProgress, IconButton, Avatar, Button, TextField, Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useRef } from 'react';
@@ -91,7 +92,7 @@ const UserPage = React.forwardRef((props, ref) => {
     // ------------
     return (
       <div ref={ref} className={`${styles.settings} ${isSettingsOpen ? styles.settings_active : false}`}>
-        {isSettingsLoading ? <CircularProgress className={styles.settings__loader}/> : <></>}
+        {isSettingsLoading ? <MyLoaderMini/> : null}
         <input ref={avatarInputSettingsRef} onChange={event => {
           setSettingsAvatarUrl(URL.createObjectURL(event.target.files[0]))
         }} hidden accept="image/*" type="file" id='settingsAvatar'/>

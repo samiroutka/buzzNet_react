@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { Context } from '@/context';
 import { jsonParseData } from '@/utils.js';
 import MyLoader from '@/components/UI/MyLoader/MyLoader';
+import MyLoaderMini from '@/components/UI/MyLoaderMini/MyLoaderMini';
 import { WithCarpet } from '@/components/UI/WithCarpet/WithCarpet.jsx';
 import { Subs } from '@/components/Subs/Subs';
 import { MyPost } from '@/components/UI/MyPost/MyPost.jsx';
@@ -15,7 +16,8 @@ const User = () => {
   let {user} = useParams()
   let {userData, setUserData} = useContext(Context)
   let navigateTo = useNavigate()
-  let [isLoading, setIsLoading] = useState(true)
+  let [isMainLoading, setMainIsLoading] = useState(true)
+  let [isLoading, setIsLoading] = useState(false)
   let [foundUserData, setFoundUserData] = useState(false)
   let [subscription, setSubscription] = useState(false)
 
@@ -26,7 +28,7 @@ const User = () => {
     if (response != 'Wrong user'){
       response = jsonParseData(response)
       setFoundUserData(response)
-      setIsLoading(false)
+      setMainIsLoading(false)
     } else {
       navigateTo(`/error${window.location.pathname}`)
     }
@@ -103,8 +105,9 @@ const User = () => {
   // --------------------
   return (
     <>
-      {isLoading ? <MyLoader/> : 
+      {isMainLoading ? <MyLoader/> : 
         <div className={styles.User}>
+          {isLoading ? <MyLoaderMini/> : null}
           <div className={styles.User__header}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <Avatar className={styles.User__avatar} src={apiUrl+foundUserData.avatar}/>
