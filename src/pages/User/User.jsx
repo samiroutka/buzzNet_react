@@ -10,6 +10,7 @@ import MyLoaderMini from '@/components/UI/MyLoaderMini/MyLoaderMini';
 import { WithCarpet } from '@/components/UI/WithCarpet/WithCarpet.jsx';
 import { Subs } from '@/components/Subs/Subs';
 import { MyPost } from '@/components/UI/MyPost/MyPost.jsx';
+import { MyTabs } from '@/components/MyTabs/MyTabs.jsx';
 
 const User = () => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -146,6 +147,7 @@ const User = () => {
           </div>
         </div>
       }
+      <MyTabs/>
     </>
   )
 }

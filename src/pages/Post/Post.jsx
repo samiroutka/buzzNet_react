@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router'
 import MyLoader from '@/components/UI/MyLoader/MyLoader';
 import { Avatar } from '@mui/material';
+import { MyTabs } from '@/components/MyTabs/MyTabs.jsx';
 
 const Post = () => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -40,6 +41,7 @@ const Post = () => {
       <div className={styles.Post}>
         <div ref={contentRef} dangerouslySetInnerHTML={{ __html: postData ? postData.content : false  }} className={styles.Post__content}></div>
       </div>
+      <MyTabs/>
     </>
   )
 }

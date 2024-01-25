@@ -22,7 +22,7 @@ export let getCookie = (document, name) => {
 }
 
 export let rememberUser = (document, name, password) => {
-  let maxAge = 1200
+  let maxAge = 300
   document.cookie = `name=${name};max-age=${maxAge}`    
   document.cookie = `password=${password};max-age=${maxAge}`    
 }

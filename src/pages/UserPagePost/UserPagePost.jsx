@@ -9,6 +9,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import add_image from './add_image.svg';
+import { MyTabs } from '@/components/MyTabs/MyTabs.jsx';
 
 const UserPagePost = () => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -137,6 +138,7 @@ const UserPagePost = () => {
           </div> :
         navigateTo(`/error/${postId}`)
       }
+      <MyTabs/>
     </>
   )
 }
