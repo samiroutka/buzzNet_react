@@ -37,7 +37,7 @@ const SearchPost = React.forwardRef((props, ref) => {
   let searchPost = async (inputRef) => {
     setIsLoading(true)
     let inputValue = inputRef.current.querySelector('input').value
-    let response = await fetch(`${apiUrl}posts/${inputValue}`)
+    let response = await fetch(`${apiUrl}posts/${inputValue}?user=true`)
     response = await response.json()
     setFoundPosts(response)
     setIsLoading(false)
@@ -53,7 +53,7 @@ const SearchPost = React.forwardRef((props, ref) => {
         foundPosts.length == 0 ?
         <p>Постов нету</p> :
         foundPosts.map(post => 
-          <MyPost user={true} post={post} onClick={() => {navigateTo(`/users/${post.user}/posts/${post.id}`)}}/>
+          <MyPost user={true} post={post} onClick={() => {navigateTo(`/users/${post.user.name}/posts/${post.id}`)}}/>
         )}
       </div>}
     </div>

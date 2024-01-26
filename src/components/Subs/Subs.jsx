@@ -1,26 +1,37 @@
 import React from 'react'
 import styles from './Subs.module.scss'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Avatar } from '@mui/material';
 
 export const Subs = React.forwardRef(({userData, type, activeClassCallback}, ref) => {
   let apiUrl = import.meta.env.VITE_APIURL
+  let [avatars, setAvatars] = useState(false)
+
+  let getAvatars = async () => {
+    let response = await fetch(`${apiUrl}users/avatars/`, {
+      method: 'post',
+      body: JSON.stringify(userData.subscriptions)
+    })
+    setAvatars(await response.json())
+  }
 
   useEffect(() => {
     activeClassCallback(styles.data__list_active)
+    getAvatars()
   }, [])
+
   return (
     <div ref={ref} className={styles.data__list}>
       {type == 'subscribers' ? 
       userData.subscribers.map(subscriber =>
-        <a className={styles.data__list_user} href={`${location.origin}/users/${subscriber.name}/`} key={subscriber.name}>
-          <Avatar className={styles.data__list_avatar} src={apiUrl + subscriber.avatar}/>
-          <span>{subscriber.name}</span>
+        <a className={styles.data__list_user} href={`${location.origin}/users/${subscriber}/`} key={subscriber}>
+          <Avatar className={styles.data__list_avatar} src={`${apiUrl}${avatars[subscriber]}`}/>
+          <span>{subscriber}</span>
         </a>)
       : userData.subscriptions.map(subscription =>
-        <a className={styles.data__list_user} href={`${location.origin}/users/${subscription.name}/`} key={subscription.name}>
-          <Avatar className={styles.data__list_avatar} src={apiUrl + subscription.avatar}/>
-          <span>{subscription.name}</span>
+        <a className={styles.data__list_user} href={`${location.origin}/users/${subscription}/`} key={subscription}>
+          <Avatar className={styles.data__list_avatar} src={`${apiUrl}${avatars[subscription]}`}/>
+          <span>{subscription}</span>
         </a>)
       }
       {type == 'subscribers' && userData.subscribers.length == 0 ?

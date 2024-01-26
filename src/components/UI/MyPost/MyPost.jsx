@@ -8,6 +8,12 @@ import post_adding from './post_adding.svg'
 import { Avatar } from '@mui/material'
 
 export const MyPost = ({post, onClick, user}) => {
+  let apiUrl = import.meta.env.VITE_APIURL
+
+  useEffect(() => {
+    console.log('post', post)
+  }, [])
+
   return (
     <Card className={styles.posts__post} key={post.id} onClick={onClick}>
       <CardActionArea className={styles.posts__actionArea}>
@@ -20,8 +26,8 @@ export const MyPost = ({post, onClick, user}) => {
           <p>{post.title}</p>
           {user ? 
             <div className={styles.posts__user}>
-              <Avatar className={styles.posts__avatar} src={post.preview}/>
-              <span>{post.user}</span>
+              <Avatar className={styles.posts__avatar} src={`${apiUrl}${post.user.avatar}`}/>
+              <span>{post.user.name}</span>
             </div> : null
           }
         </CardContent>

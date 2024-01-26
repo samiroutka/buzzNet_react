@@ -23,7 +23,6 @@ const User = () => {
   let [subscription, setSubscription] = useState(false)
 
   let getUser = async () => {
-    console.log('getUser')
     let response = await fetch(`${apiUrl}user/${user}`)
     response = await response.json()
     if (response != 'Wrong user'){
@@ -39,11 +38,9 @@ const User = () => {
     setIsLoading(true)
     let formData = new FormData()
     if (type == 'unsubscription') {
-      for (let user of userData.subscriptions) {
-        user.name == foundUserData.name ? userData.subscriptions.splice(userData.subscriptions.indexOf(user.name), 1) : null
-      }
+      userData.subscriptions.splice(userData.subscriptions.indexOf(user), 1)
     } else if (type == 'subscription') {
-      userData.subscriptions = [...userData.subscriptions, {name: foundUserData.name, avatar: foundUserData.avatar}]
+      userData.subscriptions = [...userData.subscriptions, foundUserData.name]
     }
     formData.append('subscriptions', JSON.stringify(userData.subscriptions))
     let response = await fetch(`${apiUrl}user/${userData.name}`, {
@@ -57,10 +54,10 @@ const User = () => {
     let formData2 = new FormData()
     if (type == 'unsubscription') {
       for (let user of foundUserData.subscribers) {
-        user.name == userData.name ? foundUserData.subscribers.splice(foundUserData.subscribers.indexOf(user.name), 1) : null
+        foundUserData.subscribers.splice(foundUserData.subscribers.indexOf(user), 1)
       }
     } else if (type == 'subscription'){
-      foundUserData.subscribers = [...foundUserData.subscribers, {name: userData.name, avatar: userData.avatar}]
+      foundUserData.subscribers = [...foundUserData.subscribers, userData.name]
     }
     formData2.append('subscribers', JSON.stringify(foundUserData.subscribers))
     await fetch(`${apiUrl}user/${user}`, {
@@ -83,9 +80,8 @@ const User = () => {
     if (foundUserData && userData) {
       let isIncluded = false
       for (let user of userData.subscriptions) {
-        user.name.includes(foundUserData.name) ? isIncluded = true : null
+        user.includes(foundUserData.name) ? isIncluded = true : null
       }
-      // isIncluded ? setSubscription(true) : setSubscription(false)
       isIncluded ? setSubscription(true) : setSubscription(false)
     }
   }, [foundUserData, userData])
