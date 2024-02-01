@@ -9,11 +9,7 @@ import { Avatar } from '@mui/material'
 
 export const MyPost = ({post, onClick, user}) => {
   let apiUrl = import.meta.env.VITE_APIURL
-
-  useEffect(() => {
-    console.log('post', post)
-  }, [])
-
+  
   return (
     <Card className={styles.posts__post} key={post.id} onClick={onClick}>
       <CardActionArea className={styles.posts__actionArea}>

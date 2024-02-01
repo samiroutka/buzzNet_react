@@ -20,6 +20,68 @@
   justify-content: space-between;
 }
 
+
+:root{
+  --rate-width: .7; // set value in percent like this: .7 = 70%, ...
+  --rateWrapper-width: .3;
+  --rate-width-percent: calc(var(--rate-width) * 100%);
+  --rateWrapper-width-percent: calc(var(--rateWrapper-width) * 100%);
+  // ---------------
+  --rateBtn-width: .3; // rate-width + rateBtn-width must equals to 1 (for instance: .7 + .3 = 1)
+  --rateBtn-width-percent: calc(var(--rateBtn-width) * 100%);
+}
+.Post__rate_wrapper{
+  margin: 0 3% 3% 0;
+  width: var(--rateWrapper-width-percent);
+  display: flex;
+  float: left;
+  transition: all .2s ease-in-out;
+}
+.Post__rate_wrapper_close{
+  margin-right: calc(var(--rateWrapper-width) * var(--rate-width) * -100% + 3%);
+  transform: translateX(calc(var(--rate-width-percent) * -1));
+  .Post__rate_showbtn img{
+    transform: rotate(180deg);
+  }
+}
+.Post__rate_score{
+  margin: 20% 0;
+  text-align: center;
+  font-size: 2em;
+}
+.Post__rate_score_plus{
+  color: rgb(0, 100, 0);
+}
+.Post__rate_score_minus{
+  color: rgb(100, 0, 0);
+}
+.Post__rate{
+  padding: 10%;
+  width: var(--rate-width-percent);
+  box-sizing: border-box;
+  background-color: rgba(128, 128, 128, 0.2);
+  border-radius: 0 0 10px 0;
+  transition: all .2s ease;
+  img{
+    margin: 0 auto;
+    width: 100%;
+    display: block;
+  }
+}
+.Post__rate_showbtn{
+  padding: 10% 0;
+  width: var(--rateBtn-width-percent);
+  align-self: center;
+  background-color: rgba(128, 128, 128, 0.2);
+  border-radius: 0 10px 10px 0;
+  img{
+    padding: 5%;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all .2s linear;
+  }
+}
+
 .Post__title{
   margin: 0;
   text-align: center;
