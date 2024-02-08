@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import styles from './UserPagePost.module.scss'
-import { Context } from '../../context'
-import { TextField, Button, CircularProgress, Alert } from '@mui/material'
-import MyLoader from '../../components/UI/MyLoader/MyLoader'
-import MyLoaderMini from '../../components/UI/MyLoaderMini/MyLoaderMini'
-import { Editor } from '@tinymce/tinymce-react';
+import { Context } from '@/context'
+import { TextField, Button } from '@mui/material'
+import MyLoader from '@/components/UI/MyLoader/MyLoader'
+import { Tinymce } from '@/components/Tinymce/Tinymce'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import add_image from './add_image.svg';
 import { MyTabs } from '@/components/MyTabs/MyTabs.jsx';
+import { Ckeditor } from '@/components/Ckeditor/Ckeditor'
 
 const UserPagePost = () => {
   let apiUrl = import.meta.env.VITE_APIURL
@@ -19,11 +19,9 @@ const UserPagePost = () => {
   let titleElement = useRef()
   let previewElement = useRef()
   let [isLoading, setIsLoading] = useState(true)
-  let editorRef = useRef()
   let post = userData ? userData.posts.find(post => post.id == postId) : false
-  let [mediaLoader, setMediaLoader] = useState(false)
-  let [editorAlert, setEditorAlert] = useState(false)
   let [previewImage, setPreviewImage] = useState(post.preview ? post.preview : add_image)
+  let [editorGetContent, setEditorGetContent] = useState()
 
   useEffect(() => {
     setPreviewImage(post.preview ? post.preview : add_image)
@@ -34,7 +32,7 @@ const UserPagePost = () => {
     formData.append('title', titleElement.current.querySelector('input').value)
     formData.append('preview', previewElement.current.src.includes(location.host) ?
     '' : previewElement.current.src)
-    formData.append('content', editorRef.current.editor.getContent())
+    formData.append('content', editorGetContent())
     let response = await fetch(`${apiUrl}user/${userData.name}/posts/${postId}`, {
       method: 'PUT',
       body: formData
@@ -91,40 +89,8 @@ const UserPagePost = () => {
               }
               new_input.click()
             }}/>
-            {mediaLoader ? <MyLoaderMini/> : null}
-            {editorAlert ? <Alert className={styles.editorAlert} severity="info" onClose={() => {
-              setEditorAlert(false)
-            }}>Файл превышает 100 МБ</Alert> : null}
-            <Editor initialValue={post.content} ref={editorRef} onInit={() => {
-              setIsLoading(false)
-              }} init={{
-                menubar: false,
-                toolbar: 'undo redo | fontsize fontfamily bold italic | alignleft aligncenter alignright alignjustify | image media preview',
-                plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste imagetools wordcount',
-                file_picker_types: 'image media',
-                file_picker_callback: (cb, value, meta) => {
-                  let file_input = document.createElement('input')
-                  file_input.setAttribute('type', 'file')
-                  file_input.setAttribute('accept', meta.filetype == 'image' ? 'image/*' : 'video/*')
-                  file_input.onchange = async () => {
-                    if (file_input.files[0].size/1048576 <= 100) {
-                      setMediaLoader(true)
-                      let formData = new FormData()
-                      formData.append('media', file_input.files[0])
-                      let response = await fetch(`${apiUrl}${meta.filetype == 'image' ? 'mediadowloading/images/' : 'mediadowloading/videos/'}`, {
-                        method: 'post',
-                        body: formData
-                      })
-                      cb(`${apiUrl}${await response.json()}`)
-                      setMediaLoader(false)
-                    } else {
-                      setEditorAlert(true)
-                    }
-                  }
-                  file_input.click()
-                }
-              }}
-            />
+            <Tinymce inputValue={post.content} setIsLoading={setIsLoading} setEditorGetContent={setEditorGetContent}/>
+            {/* <Ckeditor inputValue={post.content} setIsLoading={setIsLoading}/> */}
             <Button className={styles.saveButton} onClick={async () => {
               setIsLoading(true)
               await savePost()

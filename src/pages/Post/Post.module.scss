@@ -38,7 +38,8 @@
   transition: all .2s ease-in-out;
 }
 .Post__rate_wrapper_close{
-  margin-right: calc(var(--rateWrapper-width) * var(--rate-width) * -100% + 3%);
+  // margin-right: calc(var(--rateWrapper-width) * var(--rate-width) * -100% + 3%);
+  margin-right: calc(var(--rate-width) * -100%);
   transform: translateX(calc(var(--rate-width-percent) * -1));
   .Post__rate_showbtn img{
     transform: rotate(180deg);

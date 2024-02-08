@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/base": "^5.0.0-beta.22",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
     "@tinymce/tinymce-react": "^4.3.0",
+    "ckeditor5-custom-build": "file:src/components/Ckeditor/myBuild",
     "framer-motion": "^10.16.14",
     "idempotent-babel-polyfill": "^7.4.4",
     "react": "^18.2.0",
