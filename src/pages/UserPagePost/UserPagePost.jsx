@@ -77,7 +77,7 @@ const UserPagePost = () => {
               new_input.setAttribute('type', 'file')
               new_input.setAttribute('accept', 'image/*')
               new_input.onchange = async () => {
-                setMediaLoader(true)
+                setIsLoading(true)
                 let formData = new FormData()
                 formData.append('media', new_input.files[0])
                 let response = await fetch(`${apiUrl}mediadowloading/images/`, {
@@ -85,12 +85,12 @@ const UserPagePost = () => {
                   body: formData
                 })
                 setPreviewImage(`${apiUrl}${await response.json()}`)
-                setMediaLoader(false)
+                setIsLoading(false)
               }
               new_input.click()
             }}/>
             <Tinymce inputValue={post.content} setIsLoading={setIsLoading} setEditorGetContent={setEditorGetContent}/>
-            {/* <Ckeditor inputValue={post.content} setIsLoading={setIsLoading}/> */}
+            {/* <Ckeditor inputValue={post.content} setIsLoading={setIsLoading} setEditorGetContent={setEditorGetContent}/> */}
             <Button className={styles.saveButton} onClick={async () => {
               setIsLoading(true)
               await savePost()

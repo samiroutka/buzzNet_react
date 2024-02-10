@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import {Context} from '@/context.js'
 import { useNavigate } from 'react-router';
 import styles from './MyPost.module.scss'
@@ -9,7 +9,21 @@ import { Avatar } from '@mui/material'
 
 export const MyPost = ({post, onClick, user}) => {
   let apiUrl = import.meta.env.VITE_APIURL
-  
+  let userScoreRef = useRef()
+
+  let addColorToScore = () => {
+    let userScore = Number(userScoreRef.current.textContent)
+    if (userScore > 0) {
+      userScoreRef.current.classList.add(styles.posts__user_score_plus)
+    } else if (userScore < 0) {
+      userScoreRef.current.classList.add(styles.posts__user_score_minus)
+    }
+  }
+
+  useEffect(() => {
+    addColorToScore()
+  }, [])
+
   return (
     <Card className={styles.posts__post} key={post.id} onClick={onClick}>
       <CardActionArea className={styles.posts__actionArea}>
@@ -26,6 +40,7 @@ export const MyPost = ({post, onClick, user}) => {
               <span>{post.user.name}</span>
             </div> : null
           }
+          <strong ref={userScoreRef} className={styles.posts__user_score}>{post.tops.length - post.bottoms.length}</strong>
         </CardContent>
       </CardActionArea>
     </Card>

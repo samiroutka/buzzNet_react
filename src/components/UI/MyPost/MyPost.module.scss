@@ -12,6 +12,10 @@
     font-size: 1em;
   }
 }
+.posts__actionArea img{
+  max-height: 50vw;
+  object-fit: contain;
+}
 .posts__user{
   margin-top: 5%;
   display: flex;
@@ -22,7 +26,17 @@
   width: 5vw;
   height: 5vw;
 }
-
+.posts__user_score{
+  display: block;
+  text-align: right;
+  font-size: 2em;
+}
+.posts__user_score_plus{
+  color: rgb(0, 100, 0);
+}
+.posts__user_score_minus{
+  color: rgb(100, 0, 0);
+}
 
 // -------------------
 .posts__adding{
