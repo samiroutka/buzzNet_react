@@ -39,6 +39,7 @@ const SearchPost = React.forwardRef((props, ref) => {
     let inputValue = inputRef.current.querySelector('input').value
     let response = await fetch(`${apiUrl}posts/${inputValue}?user=true`)
     response = await response.json()
+    console.log(response)
     setFoundPosts(response)
     setIsLoading(false)
   } 

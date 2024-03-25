@@ -89,8 +89,8 @@ const UserPagePost = () => {
               }
               new_input.click()
             }}/>
-            <Tinymce inputValue={post.content} setIsLoading={setIsLoading} setEditorGetContent={setEditorGetContent}/>
-            {/* <Ckeditor inputValue={post.content} setIsLoading={setIsLoading} setEditorGetContent={setEditorGetContent}/> */}
+            {/* <Tinymce inputValue={post.content} setIsLoading={setIsLoading} setEditorGetContent={setEditorGetContent}/> */}
+            <Ckeditor inputValue={post.content} setIsLoading={setIsLoading} setEditorGetContent={setEditorGetContent}/>
             <Button className={styles.saveButton} onClick={async () => {
               setIsLoading(true)
               await savePost()
